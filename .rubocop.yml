@@ -1,0 +1,65 @@
+require: rubocop-rails
+
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/bundle/**/*'
+  TargetRubyVersion: 2.6.5
+
+Rails:
+  Enabled: true
+
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - uat
+    - hotfix
+    - staging
+    - sandbox
+    - development
+    - test
+
+Metrics/AbcSize:
+  Max: 50
+
+Metrics/CyclomaticComplexity:
+  Max: 50
+
+Metrics/PerceivedComplexity:
+  Max: 50
+
+Metrics/ClassLength:
+  CountComments: false
+  Max: 200
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Layout/LineLength:
+  Enabled: false
+  Max: 120
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*.rb'
+
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 60
+
+Metrics/ModuleLength:
+  CountComments: false
+  Max: 200
+
+Metrics/BlockLength:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
