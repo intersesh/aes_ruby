@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe AesRuby do
-  context '#key_expansion' do
-    let(:key) do
-      [0x2b, 0x7e, 0x15, 0x16,
-       0x28, 0xae, 0xd2, 0xa6,
-       0xab, 0xf7, 0x15, 0x88,
-       0x09, 0xcf, 0x4f, 0x3c]
-    end
+  let(:key) do
+    [0x2b, 0x7e, 0x15, 0x16,
+     0x28, 0xae, 0xd2, 0xa6,
+     0xab, 0xf7, 0x15, 0x88,
+     0x09, 0xcf, 0x4f, 0x3c]
+  end
 
+  describe '#key_expansion' do
     let(:expected_words) do
       [[0x2b, 0x7e, 0x15, 0x16],
        [0x28, 0xae, 0xd2, 0xa6],
@@ -60,6 +60,36 @@ describe AesRuby do
       key_schedule = AesRuby.key_expansion(key)
       key_schedule.each_with_index do |word, i|
         expect(word).to eq(expected_words[i])
+      end
+    end
+  end
+
+  context 'encrypting and decrypting' do
+    let(:plaintext_bytes) do
+      [0x32, 0x43, 0xf6, 0xa8,
+       0x88, 0x5a, 0x30, 0x8d,
+       0x31, 0x31, 0x98, 0xa2,
+       0xe0, 0x37, 0x07, 0x34]
+    end
+
+    let(:encrypted_bytes) do
+      [0x39, 0x25, 0x84, 0x1d,
+       0x2, 0xdc, 0x9, 0xfb,
+       0xdc, 0x11, 0x85, 0x97,
+       0x19, 0x6a, 0xb, 0x32]
+    end
+
+    describe '#encrypt' do
+      it 'encrypts the input' do
+        encrypted = AesRuby.encrypt(plaintext_bytes, key, 'ECB')
+        expect(encrypted).to eq(encrypted_bytes)
+      end
+    end
+
+    describe '#decrypt' do
+      it 'decrypts the input' do
+        decrypted = AesRuby.decrypt(encrypted_bytes, key, 'ECB')
+        expect(decrypted).to eq(plaintext_bytes)
       end
     end
   end
