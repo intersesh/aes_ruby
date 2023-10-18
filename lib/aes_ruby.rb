@@ -281,8 +281,7 @@ module AesRuby
     # @param [String] plaintext_bytes The plaintext bytes to be encrypted as a string
     # @param [String] key The encryption key as a string
     # @param [String] mode The mode of operation. eg: 'CBC' or 'ECB' etc
-    def encrypt(plaintext_bytes, key, mode, iv = [])
-      key_bytes = key.bytes
+    def encrypt(plaintext_bytes, key_bytes, mode, iv = [])
       blocks = plaintext_bytes.each_slice(16).to_a.tap { |a| a.last.fill(0, a.last.length, key_bytes.size - a.last.length) }
       case mode
       when 'CBC'
@@ -310,8 +309,7 @@ module AesRuby
     # @param [String] ciphertext_bytes The ciphertext to be decrypted
     # @param [String] key The encryption key as a string
     # @param [String] mode The mode of operation. eg: 'CBC' or 'ECB' etc
-    def decrypt(ciphertext_bytes, key, mode = 'ECB', iv = [])
-      key_bytes = key.bytes
+    def decrypt(ciphertext_bytes, key_bytes, mode = 'ECB', iv = [])
       decoded_cipher_bytes_array = ciphertext_bytes
       blocks = decoded_cipher_bytes_array.each_slice(16).to_a.tap { |a| a.last.fill(0, a.last.length, key_bytes.size - a.last.length) }
       decrypted_output = []
