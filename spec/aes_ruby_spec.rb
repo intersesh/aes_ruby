@@ -56,7 +56,7 @@ describe AesRuby do
        [0xb6, 0x63, 0x0c, 0xa6]]
     end
 
-    it 'generates all forty 44 words of the key schedule' do
+    it 'generates all 44 words of the key schedule' do
       key_schedule = AesRuby.key_expansion(key)
       key_schedule.each_with_index do |word, i|
         expect(word).to eq(expected_words[i])
