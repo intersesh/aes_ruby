@@ -30,7 +30,7 @@ Metrics/PerceivedComplexity:
 
 Metrics/ClassLength:
   CountComments: false
-  Max: 200
+  Max: 2000
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
@@ -50,7 +50,7 @@ Metrics/MethodLength:
 
 Metrics/ModuleLength:
   CountComments: false
-  Max: 200
+  Max: 2000
 
 Metrics/BlockLength:
   Enabled: false

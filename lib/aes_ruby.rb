@@ -91,13 +91,13 @@ module AesRuby
     def multiply(a, b)
       len = b.to_s(2).size
       reduction = 0
-      intermediateXtime = a
+      intermediate_xtime = a
       (0..len - 1).each do |i|
         is_positive = (b & (2**i)).positive?
 
         # puts intermediateXtime.to_s(16)
-        reduction ^= intermediateXtime if is_positive
-        intermediateXtime = times_x(intermediateXtime)
+        reduction ^= intermediate_xtime if is_positive
+        intermediate_xtime = times_x(intermediate_xtime)
       end
       # puts "final answer #{reduction.to_s(16)}"
       reduction
@@ -129,7 +129,7 @@ module AesRuby
       s_prime
     end
 
-    def key_expansion(key, s_box, r_con)
+    def key_expansion(key)
       n_r = 10
       n_b = 4
       n_k = 4
@@ -140,7 +140,7 @@ module AesRuby
       while i < n_b * (n_r + 1)
         temp = w[i - 1]
         if (i % n_k).zero?
-          temp = xor(sub_word(temp.rotate(1), s_box), r_con[i / n_k])
+          temp = xor(sub_word(temp.rotate(1), S_BOX), R_CON[i / n_k])
         elsif (n_k > 6) && (i % n_k == 4)
           temp = sub_word(temp)
         end
@@ -196,7 +196,7 @@ module AesRuby
       n_b = 4
       n_r = 10
 
-      w = key_expansion(key, AesRuby::S_BOX, AesRuby::R_CON)
+      w = key_expansion(key)
       state = add_round_key(state, w[0, 4].transpose)
 
       (1..n_r - 1).each do |i|
@@ -261,7 +261,7 @@ module AesRuby
     # @param [Array] key The encryption key as a byte array
     def decrypt_block(input, key)
       state = parse(input)
-      w = key_expansion(key, AesRuby::S_BOX, AesRuby::R_CON)
+      w = key_expansion(key)
 
       n_b = 4
       n_r = 10
